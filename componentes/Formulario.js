@@ -4,8 +4,6 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 const Formulario = () => {
 
-    //Continuar en clase 42
-
     const [paciente, guardarPaciente]        = useState('');
     const [propietario, guardarPropietario]  = useState('');
     const [telefono, guardarTelefono]        = useState('');
@@ -39,7 +37,7 @@ const Formulario = () => {
         setTimePickerVisibility(false);
     };
     const confirmarHora = (date) => {
-        const opciones = { hour: 'numeric', minute: '2-digit' };
+        const opciones = { hour: 'numeric', minute: '2-digit' };l
         guardarHora(date.toLocaleDateString('es-Es', opciones));
         hideTimePicker();
     };
