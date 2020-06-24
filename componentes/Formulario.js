@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { Text, StyleSheet, View, TextInput, Button, TouchableHighlight, Alert } from 'react-native';
+import { Text, StyleSheet, View, TextInput, Button, TouchableHighlight, Alert, ScrollView } from 'react-native';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-
-const Formulario = () => {
+import shortid from 'shortid';
+const Formulario = ({citas, setCitas, guardarMostrarForm}) => {
 
     const [paciente, guardarPaciente]        = useState('');
     const [propietario, guardarPropietario]  = useState('');
@@ -22,9 +22,9 @@ const Formulario = () => {
     const hideDatePicker = () => {
         setDatePickerVisibility(false);
     };
-    const confirmarFecha = (date) => {
-        const opciones = { year: 'numeric', month: 'long', day: '2-digit' };
-        guardarFecha(date.toLocaleDateString('es-Es', opciones));
+    const confirmarFecha = date => {
+        const opciones_date = { year: 'numeric', month: 'long', day: '2-digit' };
+        guardarFecha(date.toLocaleDateString('es-Es', opciones_date));
         hideDatePicker();
     };
 
@@ -36,9 +36,9 @@ const Formulario = () => {
     const hideTimePicker = () => {
         setTimePickerVisibility(false);
     };
-    const confirmarHora = (date) => {
-        const opciones = { hour: 'numeric', minute: '2-digit' };l
-        guardarHora(date.toLocaleDateString('es-Es', opciones));
+    const confirmarHora = date => {
+        const opciones_time = { hour: 'numeric', minute: '2-digit' };
+        guardarHora(date.toLocaleTimeString('es-Es', opciones_time));
         hideTimePicker();
     };
 
@@ -55,6 +55,24 @@ const Formulario = () => {
             mostrarAlerta();
             return;
         }
+
+        //Crear Nueva cita
+        const cita = { paciente, propietario, telefono, fecha, hora, sintomas };
+        cita.id = shortid.generate();
+        // console.log(cita);
+
+        //Agregar al state
+        const citasNuevo = [...citas,            cita];
+                             //copia de la cita, la nueva cita
+        setCitas(citasNuevo);
+
+        //Ocultar Formulario
+        guardarMostrarForm(false);
+
+        //Resetar formulario
+        
+
+
     }
 
     //Muestra la alerta si falla la validación
@@ -72,7 +90,7 @@ const Formulario = () => {
 
     return (
        <>   
-            <View style={styles.form}>
+            <ScrollView style={styles.form}>
 
                 <View>
                     <Text style={styles.label}> Paciente: </Text>
@@ -94,7 +112,7 @@ const Formulario = () => {
                     <Text style={styles.label}>Teléfono contacto: </Text>
                     <TextInput 
                         style={styles.input}
-                        onChangeText={ texto => guardarTelefono }
+                        onChangeText={ texto => guardarTelefono(texto) }
                         keyboardType='numeric'
                     />
                 </View>
@@ -140,7 +158,7 @@ const Formulario = () => {
                     </TouchableHighlight>
                 </View>
 
-            </View>
+            </ScrollView>
        </>
     );
 }
@@ -149,10 +167,7 @@ const styles = StyleSheet.create({
     form: {
         backgroundColor: '#FFF',
         paddingHorizontal: 20,
-        paddingVertical: 20,
-        marginHorizontal: '2.5%',
-        borderRadius: 20,
-        marginHorizontal: '4.5%'
+        
     },
     label: {
         fontWeight: 'bold',
@@ -168,7 +183,7 @@ const styles = StyleSheet.create({
     },
     btnSubmit: {
         padding: 10,
-        backgroundColor: '#1BA936',
+        backgroundColor: '#3360FC',
         marginVertical: 10,
     },
     txtBtnSubmit:{

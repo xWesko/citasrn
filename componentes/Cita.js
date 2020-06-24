@@ -43,7 +43,8 @@ const styles = StyleSheet.create({
         borderStyle: 'solid',
         borderBottomWidth: 1,
         paddingVertical: 20,
-        paddingHorizontal: 10
+        paddingHorizontal: 10,
+       
     },
     label: {
         fontWeight: 'bold',
@@ -55,7 +56,7 @@ const styles = StyleSheet.create({
     },
     btnEliminar: {
         padding: 10,
-        backgroundColor: 'red',
+        backgroundColor: '#EC3636',
         marginVertical: 10,
     },
     txtBtnEliminar:{
